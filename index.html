@@ -4,46 +4,179 @@
   <meta charset="UTF-8">
   <title>Titkos Kód</title>
   <style>
-    body { font-family: Arial; text-align: center; margin-top: 50px; }
-    #qr { 
-      margin-top: 20px; 
-      display: none; 
-      width: 50px;  /* Adjust width */
-      height: 50px; /* Adjust height */
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      text-align: center; 
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    input { font-size: 16px; padding: 5px; width: 60%; }
-    button { font-size: 16px; padding: 5px 10px; margin-left: 10px; }
+    
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      max-width: 600px;
+      width: 90%;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    input {
+      font-size: 16px;
+      padding: 12px 15px;
+      width: 100%;
+      max-width: 500px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    button {
+      font-size: 18px;
+      padding: 12px 25px;
+      background: linear-gradient(to right, #ff8a00, #da1b60);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    button:active {
+      transform: translateY(1px);
+    }
+    
+    #message {
+      margin: 20px 0;
+      font-size: 1.2rem;
+      min-height: 30px;
+      font-weight: bold;
+    }
+    
+    .success {
+      color: #4ade80;
+    }
+    
+    .error {
+      color: #f87171;
+    }
+    
+    #qr {
+      margin: 20px auto;
+      display: none;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      max-width: 200px; /* Smaller QR code */
+      width: 100%;
+      transition: all 0.5s ease;
+    }
+    
+    .hint {
+      margin-top: 25px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    
+    .binary-example {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      word-break: break-all;
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Titkos Kód</h1>
+    <p class="subtitle">Add meg a bináris kódot a QR kód megjelenítéséhez</p>
+    
+    <div class="input-group">
+      <input type="text" id="binaryInput" placeholder="Ide írd a bináris kódot (pl: 01101000...)">
+      <button onclick="checkBinary()">Ellenőrzés</button>
+    </div>
+    
+    <div id="message"></div>
+    
+    <img id="qr" src="IMG_0957.png" alt="QR kód">
+    
+    <div class="hint">
+      <p>Tipp: A bináris kód csak 0 és 1 karaktereket tartalmazhat</p>
+      <div class="binary-example">
+        Példa: 01001000 01100101 01101100 01101100 01101111
+      </div>
+    </div>
+  </div>
 
-<h1>Titkos Kód</h1>
-<p>Add meg a bináris kódot:</p>
-<input type="text" id="binaryInput" placeholder="Ide írd a kódot">
-<button onclick="checkBinary()">Ellenőrzés</button>
+  <script>
+    const TARGET_BINARY = "0110100001110100011101000111000001110011001110100010111100101111011000100111001101101110011100100010111001100111011010010111010001101000011101010110001000101110011010010110111100101111011000110110110001101001011001010110111001110100011100110110010101100011011100100110010101110100";
 
-<div id="message"></div>
-<img id="qr" src="IMG_0957.png" alt="QR kód">
+    function checkBinary() {
+      let input = document.getElementById("binaryInput").value;
+      input = input.replace(/[\s-]/g, ''); // remove spaces and dashes
 
-<script>
-  const TARGET_BINARY = "0110100001110100011101000111000001110011001110100010111100101111011000100111001101101110011100100010111001100111011010010111010001101000011101010110001000101110011010010110111100101111011000110110110001101001011001010110111001110100011100110110010101100011011100100110010101110100";
+      const messageDiv = document.getElementById("message");
+      const qrImg = document.getElementById("qr");
 
-  function checkBinary() {
-    let input = document.getElementById("binaryInput").value;
-    input = input.replace(/[\s-]/g, ''); // remove spaces and dashes
-
-    const messageDiv = document.getElementById("message");
-    const qrImg = document.getElementById("qr");
-
-    if (input === TARGET_BINARY) {
-      messageDiv.innerText = "Helyes kód! QR kód megjelenítése...";
-      qrImg.style.display = "block";
-    } else {
-      messageDiv.innerText = "Hibás kód, próbáld újra!";
-      qrImg.style.display = "none";
+      if (input === TARGET_BINARY) {
+        messageDiv.innerText = "✓ Helyes kód! QR kód megjelenítése...";
+        messageDiv.className = "success";
+        qrImg.style.display = "block";
+        
+        // Add a subtle animation when QR code appears
+        setTimeout(() => {
+          qrImg.style.transform = "scale(1.05)";
+          setTimeout(() => {
+            qrImg.style.transform = "scale(1)";
+          }, 200);
+        }, 10);
+      } else {
+        messageDiv.innerText = "✗ Hibás kód, próbáld újra!";
+        messageDiv.className = "error";
+        qrImg.style.display = "none";
+      }
     }
-  }
-</script>
-
+    
+    // Allow Enter key to trigger the check
+    document.getElementById("binaryInput").addEventListener("keyup", function(event) {
+      if (event.key === "Enter") {
+        checkBinary();
+      }
+    });
+  </script>
 </body>
 </html>
