@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Titkos Kód</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <style>
     body { font-family: Arial; text-align: center; margin-top: 50px; }
-    #qr { margin-top: 20px; }
+    #qr { margin-top: 20px; display: none; }
     input { font-size: 16px; padding: 5px; width: 60%; }
     button { font-size: 16px; padding: 5px 10px; margin-left: 10px; }
   </style>
@@ -19,31 +18,24 @@
 <button onclick="checkBinary()">Ellenőrzés</button>
 
 <div id="message"></div>
-<canvas id="qr"></canvas>
+<img id="qr" src="IMG_0957.png" alt="QR kód">
 
 <script>
   const TARGET_BINARY = "0110100001110100011101000111000001110011001110100010111100101111011000100111001101101110011100100010111001100111011010010111010001101000011101010110001000101110011010010110111100101111011000110110110001101001011001010110111001110100011100110110010101100011011100100110010101110100";
-  const URL = "https://bsnr.github.io/clientsecret";
 
   function checkBinary() {
     let input = document.getElementById("binaryInput").value;
     input = input.replace(/[\s-]/g, ''); // remove spaces and dashes
 
     const messageDiv = document.getElementById("message");
-    const qrCanvas = document.getElementById("qr");
-
-    qrCanvas.getContext('2d').clearRect(0, 0, qrCanvas.width, qrCanvas.height); // clear previous QR
+    const qrImg = document.getElementById("qr");
 
     if (input === TARGET_BINARY) {
-      messageDiv.innerText = "Helyes kód! QR kód generálása...";
-      QRCode.toCanvas(qrCanvas, URL, function (error) {
-        if (error) {
-          console.error(error);
-          messageDiv.innerText = "Hiba történt a QR kód generálásakor.";
-        }
-      });
+      messageDiv.innerText = "Helyes kód! QR kód megjelenítése...";
+      qrImg.style.display = "block";
     } else {
       messageDiv.innerText = "Hibás kód, próbáld újra!";
+      qrImg.style.display = "none";
     }
   }
 </script>
